@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BYBI Box</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&display=swap" rel="stylesheet">
+    <style>
+        .card {
+            width: 1000px;
+            margin: 10px;
+            top: 20px;
+            left: -120px;
+        }
+
+        .innerCard:hover {
+            opacity: 0.7;
+        }
+
+        .innerCard:active {
+            opacity: 0.3;
+        }
+
+        #selected-container {
+            position: fixed;
+            padding: 32px;
+            top: 80px;
+            right: 0;
+            background-color: #f6f6f6;
+            border-left: 1px solid #76777c;
+            width: 500px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #button-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 32px;
+        }
+
+        .mainImg-top {
+            width: 100%;
+            height: 200px;
+            /* Adjust the height as needed */
+            object-fit: cover;
+        }
+
+        .card-mainImg {
+            height: 300px;
+        }
+
+        .card-img {
+            width: 120px;
+            margin: 4px;
+        }
+
+        #image-container img {
+            margin: 10px;
+            border-radius: 128px;
+        }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+            z-index: 9999;
+        }
+
+        #total-price {
+            margin-right: 10px;
+        }
+
+        #order-button {
+            background-color: #51635e;
+            color: white;
+            padding: 20px 24px;
+            border: none;
+            cursor: pointer;
+            width: 360px;
+            height: 100px;
+            font-size: 28px;
+        }
+
+        #order-button:hover {
+            opacity: 0.8;
+        }
+
+        #total-price {
+            font-size: 28px;
+        }
+
+        #innerCard {
+            width: 20px;
+            height: 200px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        #filterButton-first {
+            margin-top: 100px;
+            margin-right: 8px;
+            background-color: #51635e;
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #filterButton-second {
+            margin-top: 100px;
+            margin-right: 8px;
+            background-color: white;
+            color: black;
+            padding: 14px 24px;
+            border-color: #51635e;
+            cursor: pointer;
+        }
+
+
+        #filterButton-third {
+            margin-top: 100px;
+            margin-right: 8px;
+            background-color: white;
+            color: black;
+            padding: 14px 24px;
+            border-color: #51635e;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 200px;
+            padding: 16px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 20px;
+        }
+    
+        .modal-content {
+            padding: 10px;
+        }
+    
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            z-index: 9998;
+        }
+
+        .a {
+            font-family: 'Caprasimo', sans-serif;
+            font-size: 40px;
+            src: url(https://fonts.gstatic.com/s/caprasimo/v1/esDT31JQOPuXIUGBp72UnJ8DKpE.woff2) format('woff2');
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">BYBI Box</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Event</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Company</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">My page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sign up</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary" id="filterButton-first">CHANEL</button>
+                <button class="btn btn-primary" id="filterButton-second">GUCCI</button>
+                <button class="btn btn-primary" id="filterButton-third">DIOR</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="https://www.chanel.com/images//t_one//w_0.38,h_0.38,c_crop/q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-110-chance-0-11oz--packshot-default-172110-8835357736990.jpg"
+                                class="card-mainImg" alt="Product 1">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title">루쥬 코코 블룸</h4>
+                                <h5 class="card-subtitle">4,500원</h5>
+                                <p class="card-text">촉촉하고 볼륨감 있는 입술을 연출해주는 샤인래스팅 립스틱. 오랜 시간 지속되는 비비드한 컬러의 샤인 효과</p>
+                            </div>
+                            <div class="innerCard-container">
+                                <div class="row ">
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-110-chance-0-11oz--packshot-alternative-v1-172110-8850075549726.jpg"
+                                        data-price="4500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-110-chance-0-11oz--packshot-alternative-v1-172110-8850075549726.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">110 - 샹스</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-130-blossom-0-11oz--packshot-alternative-v1-172130-8850075877406.jpg"
+                                        data-price="4500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-130-blossom-0-11oz--packshot-alternative-v1-172130-8850075877406.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">130 - 블러썸</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-126-season-0-11oz--packshot-alternative-v1-172126-8850075582494.jpg"
+                                        data-price="4500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-126-season-0-11oz--packshot-alternative-v1-172126-8850075582494.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">116 - 드림</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-110-chance-0-11oz--packshot-alternative-v1-172110-8850075549726.jpg"
+                                        data-price="4500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-110-chance-0-11oz--packshot-alternative-v1-172110-8850075549726.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">126 - 시즌</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-148-surprise-0-11oz--packshot-alternative-v1-172148-8850074566686.jpg"
+                                        data-price="4500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-coco-bloom-hydrating-plumping-intense-shine-lip-colour-148-surprise-0-11oz--packshot-alternative-v1-172148-8850074566686.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">148 - 서프라이즈</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="https://www.chanel.com/images//t_one//w_0.38,h_0.38,c_crop/q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-luminous-intense-lip-colour-136-melodieuse-0-12oz--packshot-default-160136-8800038027294.jpg" class="card-mainImg" alt="Product 2">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title">루쥬 알뤼르</h4>
+                                <h5 class="card-subtitle">5,500원</h5>
+                                <p class="card-text">루미너스 인텐스 립컬러</p>
+                            </div>
+                            <div class="innerCard-container">
+                                <div class="row ">
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-luminous-intense-lip-colour-136-melodieuse-0-12oz--packshot-alternative-v1-160136-8846889975838.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-luminous-intense-lip-colour-136-melodieuse-0-12oz--packshot-alternative-v1-160136-8846889975838.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">136 - 멜로디우스</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-176-independante-0-12oz--packshot-alternative-v1-160176-8846894039070.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-176-independante-0-12oz--packshot-alternative-v1-160176-8846894039070.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">176 - 앙데퐁당뜨</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-204-sensation-0-12oz--packshot-alternative-v1-160204-8856315887646.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-204-sensation-0-12oz--packshot-alternative-v1-160204-8856315887646.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">207 - 센세이션</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-206-illusion-0-12oz--packshot-alternative-v1-160206-8856313790494.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-206-illusion-0-12oz--packshot-alternative-v1-160206-8856313790494.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">206 - 일루젼</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-212-caractere-0-12oz--packshot-alternative-v1-160212-8856316215326.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-luminous-intense-lip-colour-212-caractere-0-12oz--packshot-alternative-v1-160212-8856316215326.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">212 - 까락떼흐</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="https://www.chanel.com/images//t_one//w_0.38,h_0.38,c_crop/q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/918-my-rose-0-11oz--packshot-default-171918-8851489882142.jpg" class="card-mainImg" alt="Product 3">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title">루쥬 코코 밤</h4>
+                                <h5 class="card-subtitle">4,800원</h5>
+                                <p class="card-text">풍부한 영양은 빠르게 스며들고 번들거림 없이 맑은 컬러만 남겨 사용할수록 건강하게 빛나는 입술을 만들어주는 루쥬</p>
+                            </div>
+                            <div class="innerCard-container">
+                                <div class="row ">
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/918-my-rose-0-11oz--packshot-alternative-v1-171918-8852353646622.jpg"
+                                        data-price="4800">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/918-my-rose-0-11oz--packshot-alternative-v1-171918-8852353646622.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">918 - 마이로즈</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/928-pink-delight-0-1oz--packshot-alternative-v1-171928-9518352957470.jpg"
+                                        data-price="4800">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/928-pink-delight-0-1oz--packshot-alternative-v1-171928-9518352957470.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">928 - 핑크 딜라이트</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/930-sweet-treat-0-1oz--packshot-alternative-v1-171930-9518353055774.jpg"
+                                        data-price="4800">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/930-sweet-treat-0-1oz--packshot-alternative-v1-171930-9518353055774.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">930 - 스윗 트릿</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/912-dreamy-white-0-11oz--packshot-alternative-v1-171912-8854500540446.jpg"
+                                        data-price="4800">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/912-dreamy-white-0-11oz--packshot-alternative-v1-171912-8854500540446.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">912 - 드리미 화이트</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/916-flirty-coral-0-11oz--packshot-alternative-v1-171916-8852352925726.jpg"
+                                        data-price="4800">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/916-flirty-coral-0-11oz--packshot-alternative-v1-171916-8852352925726.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">916 - 플러티 코랄</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="https://www.chanel.com/images//t_one//w_0.38,h_0.38,c_crop/q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-ink-matte-liquid-lip-colour-148-libere-0-2fl-oz--packshot-default-165148-8800032587806.jpg" class="card-mainImg" alt="Product 4">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title">루쥬 알뤼르 잉크</h4>
+                                <h5 class="card-subtitle">5,500원</h5>
+                                <p class="card-text">리퀴드 마뜨 립컬러</p>
+                            </div>
+                            <div class="innerCard-container">
+                                <div class="row ">
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-ink-matte-liquid-lip-colour-148-libere-0-2fl-oz--packshot-alternative-v1-165148-8850080104478.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_620/rouge-allure-ink-matte-liquid-lip-colour-148-libere-0-2fl-oz--packshot-alternative-v1-165148-8850080104478.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">148 - 리베레</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-236-gourmandise-0-20fl-oz--packshot-alternative-v1-165236-9517469597726.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-236-gourmandise-0-20fl-oz--packshot-alternative-v1-165236-9517469597726.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">236 - 골멘다이즈</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-238-tentation-0-20fl-oz--packshot-alternative-v1-165238-9517469958174.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-238-tentation-0-20fl-oz--packshot-alternative-v1-165238-9517469958174.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">238 - 텐테이션</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-164-entusiasta-0-2fl-oz--packshot-alternative-v1-165164-8850079481886.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-164-entusiasta-0-2fl-oz--packshot-alternative-v1-165164-8850079481886.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">164 - 앙뚜시아스따</h6>
+                                    </div>
+                                    <div class="innerCard"
+                                        data-image="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-140-amoureux-0-2fl-oz--packshot-alternative-v1-165140-8850080071710.jpg"
+                                        data-price="5500">
+                                        <img src="https://www.chanel.com/images//t_one/t_fnbedito//q_auto:good,f_auto,fl_lossy,dpr_1.2/w_320/rouge-allure-ink-matte-liquid-lip-colour-140-amoureux-0-2fl-oz--packshot-alternative-v1-165140-8850080071710.jpg"
+                                            class="card-img" alt="Product">
+                                        <h6 class="card-title">140 - 아무흐</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="selected-container">
+        <p id="guidance">5가지 제품을 선택하세요.</p>
+        <div id="image-container"></div>
+        <div id="button-container">
+            <h3 id="total-price">총 금액: 0</h3>
+            <button id="order-button" onclick="openNewWindow()">구매하기</button>
+        </div>
+    </div>
+
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h4>구매가 성공적으로 완료되었습니다.</h4>
+            <!-- Add your order form or content here -->
+            <button id="close-modal-button" onclick="closeModal()">구매 계속하기</button>
+        </div>
+    </div>
+    
+    <script>
+        // Get the modal element
+        var modal = document.getElementById('order-modal');
+    
+        // Get the button that opens the modal
+        var orderButton = document.getElementById('order-button');
+    
+        // Get the <span> element that closes the modal
+        var closeButton = document.getElementsByClassName('close')[0];
+
+        var overlay = document.getElementById('overlay');
+    
+        // Function to open the modal
+        function openModal() {
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+    
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    
+        // Event listener for order button click
+        orderButton.addEventListener('click', openModal);
+    
+        // Event listener for close button click
+        closeButton.addEventListener('click', closeModal);
+    
+        // Event listener for outside modal click
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            var maxCards = 5;
+            var totalPrice = 0;
+
+            $('.innerCard').click(function () {
+                var imageUrl = $(this).data('image');
+                console.log(imageUrl)
+                var imageElement = '<img src="' + imageUrl + '" class="img-thumbnail" alt="Card Image" style="width: 160px; height: 160px;">';
+                var productPrice = parseInt($(this).data('price'));
+
+                if ($('#image-container img').length < maxCards) {
+                    $('#image-container').append(imageElement);
+
+                }
+                else if ($('#image-container img').length > maxCards) {
+                    productPrice = 0;
+                }
+
+
+
+                totalPrice += productPrice;
+                $('#total-price').text('총 금액: ' + totalPrice + '원');
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
